@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CompilerProvider>(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Online Compiler'),
@@ -62,20 +62,25 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: HighlightView(
-                provider.code,
-                language: provider.selectedLanguage,
-                theme: githubTheme,
-                padding: const EdgeInsets.all(12),
-                textStyle: const TextStyle(fontFamily: 'monospace', fontSize: 16),
+          // Code editor input
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: TextEditingController(text: provider.code),
+              onChanged: provider.setCode,
+              maxLines: null,
+              minLines: 6,
+              style: const TextStyle(fontFamily: 'monospace', fontSize: 16),
+              decoration: const InputDecoration(
+                labelText: 'Code',
+                border: OutlineInputBorder(),
+                alignLabelWithHint: true,
               ),
             ),
           ),
+          
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: TextField(
               decoration: const InputDecoration(
                 labelText: 'Input (STDIN)',
@@ -90,12 +95,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? const CircularProgressIndicator()
                 : const Text('Run Code'),
           ),
-                    Expanded(
+          Expanded(
             child: Container(
               margin: const EdgeInsets.all(16.0),
-              padding: const EdgeInsets.all(200.0),
+              padding: const EdgeInsets.all(24.0),
+              width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: const Color.fromARGB(255, 15, 15, 15),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.grey, width: 1),
               ),

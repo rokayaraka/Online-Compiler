@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CompilerProvider with ChangeNotifier {
-  String _output = '';
+  String _output = 'awaiting for output...';
   bool _isLoading = false;
   String _selectedLanguage = 'python';
   String _code = 'print("Hello World")';
@@ -65,7 +65,7 @@ class CompilerProvider with ChangeNotifier {
   // Execute code
   Future<void> compileAndExecute() async {
     _isLoading = true;
-    _output = '';
+    _output = 'awaiting for output...';
     notifyListeners();
 
     try {
@@ -84,9 +84,9 @@ class CompilerProvider with ChangeNotifier {
           'stdin': _stdin,
         }),
       );
-
       final data = jsonDecode(response.body);
       _output = data['run']['output'] ?? 'No output';
+      print('Output: $_output');
       if (data['run']['stderr']?.isNotEmpty ?? false) {
         _output += '\n\nError: ${data['run']['stderr']}';
       }
